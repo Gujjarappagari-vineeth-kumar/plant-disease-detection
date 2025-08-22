@@ -1,0 +1,25 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "nixpacksPlan": {
+      "phases": {
+        "setup": {
+          "nixPkgs": ["python311", "pip"]
+        },
+        "install": {
+          "cmds": [
+            "pip install --upgrade pip",
+            "pip install -r backend/requirements.txt"
+          ]
+        }
+      }
+    }
+  },
+  "deploy": {
+    "startCommand": "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300
+  }
+}
+
+
