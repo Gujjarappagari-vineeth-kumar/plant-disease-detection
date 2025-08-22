@@ -19,7 +19,7 @@ DISEASE_CLASSES = {
     },
     1: {
         "name": "Pepper__bell___healthy",
-        "scientific_name": "N/A",
+        "scientific_name": "Capsicum annuum (healthy)",
         "symptoms": "Leaves and stems are green and upright, with no visible spots, discoloration, or wilting.",
         "treatment": "Maintain proper watering, nutrition, and sunlight exposure."
     },
@@ -37,7 +37,7 @@ DISEASE_CLASSES = {
     },
     4: {
         "name": "Potato___healthy",
-        "scientific_name": "N/A",
+        "scientific_name": "Solanum tuberosum (healthy)",
         "symptoms": "Foliage is green and vigorous, with no signs of spots, blight, or discoloration.",
         "treatment": "Ensure adequate water, nutrients, and sunlight; practice good field hygiene."
     },
@@ -97,7 +97,7 @@ DISEASE_CLASSES = {
     },
     14: {
         "name": "Tomato_healthy",
-        "scientific_name": "N/A",
+        "scientific_name": "Solanum lycopersicum (healthy)",
         "symptoms": "Leaves are uniformly green and vibrant, stems are strong, and fruit production is normal, with no signs of disease or pests.",
         "treatment": "Provide adequate sunlight, water, and nutrients; regular monitoring for pests and diseases."
     }
