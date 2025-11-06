@@ -16,4 +16,3 @@ services:
       - key: CORS_ORIGINS
         value: "*"
     healthCheckPath: /health
-
