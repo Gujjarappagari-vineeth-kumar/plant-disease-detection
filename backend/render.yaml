@@ -1,0 +1,19 @@
+# Render.com deployment configuration for Plant Disease Detection Backend
+services:
+  - type: web
+    name: plant-disease-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: PORT
+        value: 8000
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+      - key: CORS_ORIGINS
+        value: "*"
+    healthCheckPath: /health
+

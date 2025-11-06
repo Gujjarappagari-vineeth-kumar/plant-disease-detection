@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Custom scrollbar for farming theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4caf50, #8bc34a);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #388e3c, #689f38);
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Enhanced focus styles for accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+/* Custom selection color */
+::selection {
+  background: rgba(76, 175, 80, 0.3);
+  color: #1b5e20;
+}
+
+/* Enhanced typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Farming-themed animations */
+@keyframes leaf-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes soil-grow {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Enhanced button styles */
+.MuiButton-root {
+  text-transform: none !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+/* Enhanced card styles */
+.MuiPaper-root {
+  border-radius: 12px !important;
+}
+
+/* Custom farming icons */
+.farming-icon {
+  display: inline-block;
+  margin-right: 8px;
+  animation: leaf-float 3s ease-in-out infinite;
+}
+
+/* Enhanced loading animations */
+.loading-farm {
+  animation: soil-grow 1s ease-out;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* Enhanced accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Animated background slideshow using images from frontend/background */
+.animated-bg {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: bg-rotate 240s linear infinite;
+  position: relative;
+}
+
+/* Readability overlay on top of images */
+.animated-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.25) 40%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+  pointer-events: none;
+}
+
+@keyframes bg-rotate {
+  0% { background-image: url('../background/landscape-with-lake-sunset_395237-259.avif'); }
+  12.5% { background-image: url('../background/pexels-sohi-807598.jpg'); }
+  25% { background-image: url('../background/pngtree-nature-plants-hd-desktop-background-picture-image_15547037.png'); }
+  37.5% { background-image: url('../background/photo-1753787346105-b570a59916e5.jpg'); }
+  50% { background-image: url('../background/glowing-red-succulent-plant-in-dark-nature-photo.jpg'); }
+  62.5% { background-image: url('../background/images.jpg'); }
+  75% { background-image: url('../background/e86e201bd23472cd5ff4c004b8756d2c.jpg'); }
+  87.5% { background-image: url('../background/rice-field-background.jpg'); }
+  100% { background-image: url('../background/landscape-with-lake-sunset_395237-259.avif'); }
+}
