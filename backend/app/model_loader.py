@@ -12,7 +12,8 @@ from typing import Optional
 
 class ModelLoader:
     def __init__(self):
-        self.model_path = "backend/app/models/best_model.pth"
+        # When service root is the backend directory, model lives under app/models
+        self.model_path = "app/models/best_model.pth"
         self.model_url = "https://github.com/your-username/plant-disease-model/releases/download/v1.0/best_model.pth"
         # Leave empty to disable checksum verification unless you set a real value
         self.model_checksum = ""

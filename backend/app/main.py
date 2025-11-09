@@ -3,10 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import io
 from PIL import Image
-import torch
 import os
-from backend.app.models.disease_model import PlantDiseaseModel, DISEASE_CLASSES, predict_disease as infer_disease
-from backend.app.model_loader import ModelLoader
+
+# Heavy ML imports are performed lazily inside load_model() so the app can still
+# start even if optional dependencies (like torch) are not available at deploy
+# time on environments like Render. This prevents ASGI import-time failures.
+PlantDiseaseModel = None
+DISEASE_CLASSES = {}
+infer_disease = None
+ModelLoader = None
 
 app = FastAPI(
     title="Plant Disease Detection API",
@@ -38,12 +43,30 @@ def load_model():
     """Load the trained model with optimized loading"""
     global model
     try:
+        # Import heavy modules lazily
+        import torch
+        from .models.disease_model import PlantDiseaseModel as _PlantDiseaseModel
+        from .models.disease_model import DISEASE_CLASSES as _DISEASE_CLASSES
+        from .models.disease_model import predict_disease as _infer_disease
+        from .model_loader import ModelLoader as _ModelLoader
+
+        # Bind to module-level names for use elsewhere
+        globals()['PlantDiseaseModel'] = _PlantDiseaseModel
+        globals()['DISEASE_CLASSES'] = _DISEASE_CLASSES
+        globals()['infer_disease'] = _infer_disease
+        globals()['ModelLoader'] = _ModelLoader
+
         # Use optimized model loader
-        model_loader = ModelLoader()
-        model = model_loader.load_model(PlantDiseaseModel, num_classes=38)
-        
+        model_loader = _ModelLoader()
+        model = model_loader.load_model(_PlantDiseaseModel, num_classes=38)
+
         print("✅ Model loaded successfully!")
         return True
+    except ImportError as ie:
+        # Missing runtime dependency (common on render if torch not installed)
+        print(f"❌ ImportError while loading model dependencies: {ie}")
+        print("⚠️ The API will start but model predictions will be disabled until dependencies are installed.")
+        return False
     except Exception as e:
         print(f"❌ Error loading model: {e}")
         return False
@@ -95,10 +118,15 @@ async def predict_disease(file: UploadFile = File(...)):
         # Load image and convert to RGB
         image = Image.open(io.BytesIO(contents)).convert('RGB')
         
-        # Check if model is loaded
-        if model is None:
-            raise HTTPException(status_code=503, detail="Model not loaded")
-        
+        # Check if model and inference function are available
+        if model is None or infer_disease is None:
+            # Provide helpful guidance instead of an internal server error
+            raise HTTPException(
+                status_code=503,
+                detail=("Model not available. Ensure server was started with required ML "
+                        "dependencies (torch) and that the model loaded successfully.")
+            )
+
         # Make prediction using utility function from disease_model
         result = infer_disease(model, image)
         
